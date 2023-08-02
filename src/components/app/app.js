@@ -1,3 +1,5 @@
+import { Component } from 'react';
+
 import AppInfo from '../app-info/app-info.js';
 import SerchPannel from '../search-pannel/search-pannel.js';
 import AppFilter from '../app-filter/app-filter.js';
@@ -6,27 +8,59 @@ import EmploeesAddForm from '../emploees-add-form/emploees-add-form.js';
 
 import './app.css';
 
-function App() {
+class App extends Component {
 	// Данные о сотрудниках
-	const data = [
-		{ name: 'John D.', salary: 1500, increase: false, id: 1 },
-		{ name: 'Alex S.', salary: 2500, increase: true, id: 2 },
-		{ name: 'Carl W.', salary: 3500, increase: false, id: 3 },
-	];
+	constructor(props) {
+		super(props);
+		this.state = {
+			data: [
+				{ name: 'John D.', salary: 1500, increase: false, id: 1 },
+				{ name: 'Alex S.', salary: 2500, increase: true, id: 2 },
+				{ name: 'Carl W.', salary: 3500, increase: false, id: 3 },
+			],
+		};
+		this.maxId = 4;
+	}
 
-	return (
-		<div className="app">
-			<AppInfo />
+	deleteItem = (id) => {
+		this.setState(({ data }) => {
+			return {
+				data: data.filter((item) => item.id !== id),
+			};
+		});
+	};
 
-			<div className="search-pannel">
-				<SerchPannel />
-				<AppFilter />
+	addItem = (name, salary) => {
+		const newItem = {
+			name,
+			salary,
+			increase: false,
+			id: this.maxId++,
+		};
+
+		this.setState(({ data }) => {
+			const newArr = [...data, newItem];
+			return {
+				data: newArr,
+			};
+		});
+	};
+
+	render() {
+		return (
+			<div className="app">
+				<AppInfo />
+
+				<div className="search-pannel">
+					<SerchPannel />
+					<AppFilter />
+				</div>
+
+				<EmploeesList data={this.state.data} onDelete={this.deleteItem} />
+				<EmploeesAddForm onAdd={this.addItem} />
 			</div>
-
-			<EmploeesList data={data} />
-			<EmploeesAddForm />
-		</div>
-	);
+		);
+	}
 }
 
 export default App;
