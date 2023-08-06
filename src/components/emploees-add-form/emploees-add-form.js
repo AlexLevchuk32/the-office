@@ -20,6 +20,10 @@ class EmploeesAddForm extends Component {
 
 	onSubmit = (event) => {
 		event.preventDefault();
+		if (this.state.name.length < 3 || !this.state.salary) {
+			alert('Заполните имя и зарплату сотрудника');
+			return;
+		}
 		this.props.onAdd(this.state.name, this.state.salary);
 		this.setState({
 			name: '',
