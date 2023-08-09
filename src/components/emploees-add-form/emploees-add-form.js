@@ -4,13 +4,10 @@ import { Component } from 'react';
 import './emploees-add-form.scss';
 
 class EmploeesAddForm extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			name: '',
-			salary: 0,
-		};
-	}
+	state = {
+		name: '',
+		salary: 0,
+	};
 
 	onValueChange = (event) => {
 		this.setState({
@@ -31,6 +28,14 @@ class EmploeesAddForm extends Component {
 			salary: '',
 		});
 	};
+
+	// Статичный метод
+	static onLog = () => {
+		console.log('Static');
+	};
+
+	// Статичное свойство
+	static logged = 'static property';
 
 	render() {
 		const { name, salary } = this.state;
@@ -64,5 +69,8 @@ class EmploeesAddForm extends Component {
 		);
 	}
 }
+
+EmploeesAddForm.onLog();
+console.log(EmploeesAddForm.logged);
 
 export default EmploeesAddForm;
